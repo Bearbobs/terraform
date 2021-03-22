@@ -3,9 +3,11 @@ resource "aws_instance" "terra-test"{
 	instance_type="t2.micro"
 	key_name="bobs"
 	connection {
-		user="ubuntu"
-		key_file="ssh/key"
-	}
+		type        = "ssh"
+		host        = self.public_ip
+		user        = "ubuntu"
+		private_key = file("~/.ssh/bobs.pem")
+	}  
 	provisioner "remote-exec" {
 		inline = [
 			 "sudo apt-get update",
