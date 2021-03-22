@@ -1,37 +1,31 @@
-resource "aws_security_group" "swarm" {
-  name = "swarm-group"
-  description = "Default security group that allows inbound and outbound traffic from all instances in the VPC"
+variable "ingressrules" {
+  type    = list(number)
+  default = [80, 443, 22]
+}
 
-  ingress {
-    from_port   = "0"
-    to_port     = "0"
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-    self        = true
-  }
+resource "aws_security_group" "web_traffic" {
+  name        = "Allow web traffic"
+  description = "Allow ssh and standard http/https ports inbound and everything outbound"
 
-  ingress {
-    from_port = 22
-    to_port   = 22
-    protocol  = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+  dynamic "ingress" {
+    iterator = port
+    for_each = var.ingressrules
+    content {
+      from_port   = port.value
+      to_port     = port.value
+      protocol    = "TCP"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
   }
 
   egress {
-    from_port   = "0"
-    to_port     = "0"
+    from_port   = 0
+    to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
-    self        = true
   }
-  egress {
-    from_port = 22
-    to_port   = 22
-    protocol  = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  
-  tags = { 
-    Name = "swarm-example" 
+
+  tags = {
+    "Terraform" = "true"
   }
 }
