@@ -1,7 +1,11 @@
 # Terraform 101
 
-`git update-index --assume-unchanged variables.tf`
+useful configs and starter workflows for terraform
 
-To undo and start tracking again :
+### Avoid variables.tf to upload your credentials to git:
 
-`git update-index --no-assume-unchanged variables.tf`
+  `git update-index --assume-unchanged variables.tf`
+
+  To undo and start tracking again :
+
+  `git update-index --no-assume-unchanged variables.tf`
