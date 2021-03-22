@@ -31,7 +31,7 @@ resource "aws_security_group" "swarm" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   
-  tags { 
+  tags = { 
     Name = "swarm-example" 
   }
 }
