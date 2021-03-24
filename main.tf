@@ -13,8 +13,14 @@ resource "aws_instance" "terra-test"{
 
 	provisioner "remote-exec" {
 		inline = [
-			 "sudo apt-get update",
-			 "sudo apt install neofetch"
+			 "sudo apt update",
+			 "sudo apt update",
+			 "sudo apt-get install -y software-properties-common",
+			 "sudo apt-get install -y awscli",
+			 "aws configure set aws_access_key_id ${var.access_key}",
+			 "aws configure set aws_secret_access_key ${var.secret_key}",
+			 "aws configure set default_region_name ap-south-1",
+			 "echo 'test'"
 		]
 	}
 	tags={
